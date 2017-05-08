@@ -1,3 +1,5 @@
+require_relative './ios_build_step_generator'
+
 module Flow::Cli
   class ProjectAnalytics
     attr_accessor :config
@@ -7,18 +9,18 @@ module Flow::Cli
 
     def platform
       raise "conflict platform" if is_ios? && is_android?
-      return "ios" if is_ios?
-      return "android" if is_android?
-      raise ConflictPlatformError, "unknow platform"
+      return "ios" if ios?
+      return "android" if android?
+      raise ConflictPlatformError, "conflict, unknown platform"
     end
 
     private
 
-    def is_ios?
+    def ios?
       (Dir["#{base_path}*.xcodeproj"] + Dir["#{base_path}*.xcworkspace"]).count > 0
     end
 
-    def is_android?
+    def android?
       Dir["#{base_path}*.gradle"].count > 0
     end
 

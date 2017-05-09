@@ -21,6 +21,10 @@ module Flow::Cli
     end
 
     it "could raise exception when have both project type files" do
+      expect do
+        ProjectAnalytics.new.platform
+      end.to raise_error(ConflictPlatformError)
+      
         FileUtils.touch('test.gradle')
         FileUtils.touch('test.xcodeproj')
       expect do

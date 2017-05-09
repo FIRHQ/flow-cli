@@ -12,3 +12,7 @@
 # rspec failure tracking
 .rspec_status
 .byebug_history*
+
+test.xcodeproj
+test.xcworkspace
+test.gradle

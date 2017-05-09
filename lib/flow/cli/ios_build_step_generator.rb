@@ -9,7 +9,7 @@ module Flow::Cli
       if default_config.nil? && ENV["FLOW_CLI_TEST"] != "TRUE"
         Gym.config = FastlaneCore::Configuration.create(Gym::Options.available_options, {})
         config = Gym.config.values(ask: false).reject { |_k, v| v.nil? }
-        allowed_params = %i[workspace project sheme clean output_name configuration
+        allowed_params = %i[workspace project scheme clean output_name configuration
                             codesigning_identity include_symbols include_bitcode
                             export_method export_options export_xcargs]
         default_config = config.select { |k, _v| allowed_params.include? k }

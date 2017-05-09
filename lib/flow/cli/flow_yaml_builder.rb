@@ -22,7 +22,7 @@ module Flow::Cli
       flow = {}
 
       flow[:name] = flow_cli_config[:flow_name] || 'default_flow_by_cli'
-      flow[:language] = flow_cli_config[:flow_language]
+      flow[:language] = flow_cli_config[:language]
 
       flow[:env] = flow_cli_config[:env]
       flow[:trigger] = {

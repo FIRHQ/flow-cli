@@ -6,13 +6,15 @@ module Flow::Cli
     attr_accessor :config
     attr_accessor :debug
     def initialize(default_config = nil)
-      if default_config.nil?
+      if default_config.nil? && ENV["FLOW_CLI_TEST"] != "TRUE"
         Gym.config = FastlaneCore::Configuration.create(Gym::Options.available_options, {})
         config = Gym.config.values(ask: false).reject { |_k, v| v.nil? }
         allowed_params = %i[workspace project sheme clean output_name configuration
                             codesigning_identity include_symbols include_bitcode
                             export_method export_options export_xcargs]
         default_config = config.select { |k, _v| allowed_params.include? k }
+      else
+        default_config = {}
       end
 
       self.config = default_config

@@ -5,11 +5,11 @@ module Flow::Cli
     attr_accessor :config
     def initialize(config = {})
       # 要 env
-      config[:flow_language] = language(platform)
+      config[:flow_language] = language
       self.config = config
     end
 
-    def language(platform)
+    def language
       case platform
       when "ios"
         "objc"
@@ -36,6 +36,7 @@ module Flow::Cli
     end
 
     def base_path
+      return './' if config.nil?
       config[:workspace] || './'
     end
   end

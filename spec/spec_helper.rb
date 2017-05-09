@@ -7,6 +7,7 @@ end
 
 require "flow/cli"
 require "byebug"
+ENV["FLOW_CLI_TEST"] = "TRUE"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

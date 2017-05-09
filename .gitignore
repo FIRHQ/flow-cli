@@ -17,3 +17,4 @@ test.xcodeproj
 test.xcworkspace
 test.gradle
 flow-cli-*.gem
+.flow.yml

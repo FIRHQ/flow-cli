@@ -7,6 +7,7 @@ module Flow::Cli
 
       File.delete("test.gradle") if File.file?("test.gradle")
     end
+
     it "could config ios project platform" do
       FileUtils.touch('test.xcworkspace')
       expect(ProjectAnalytics.new.platform).to eq "ios"
@@ -24,7 +25,7 @@ module Flow::Cli
       expect do
         ProjectAnalytics.new.platform
       end.to raise_error(ConflictPlatformError)
-      
+
         FileUtils.touch('test.gradle')
         FileUtils.touch('test.xcodeproj')
       expect do

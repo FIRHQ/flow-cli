@@ -1,4 +1,10 @@
 require "bundler/setup"
+
+require 'simplecov'
+SimpleCov.start do
+  add_filter "/vendors/"
+end
+
 require "flow/cli"
 require "byebug"
 

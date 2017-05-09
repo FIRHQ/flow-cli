@@ -1,8 +1,21 @@
+require 'yaml'
 module Flow::Cli
   class FlowYamlBuilder
     attr_accessor :flow_cli_config
     def initialize(flow_cli_config = {})
       self.flow_cli_config = flow_cli_config
+    end
+
+    def build_yaml
+      build_yaml_hash.deep_stringify_keys.to_yaml
+    end
+
+    def build_yaml_hash
+      yaml_hash = {
+        env: ["FLOW_YAML_FROM=flow-cli"],
+        flows: [create_default_flow_dict]
+      }
+      yaml_hash
     end
 
     def create_default_flow_dict
@@ -15,6 +28,7 @@ module Flow::Cli
       flow[:trigger] = {
         push: %w[develop master]
       }
+      flow[:steps] = generate_steps
       flow
     end
 
@@ -35,13 +49,10 @@ module Flow::Cli
 
     # 生成编译脚本
     def generate_custom_build_step
-      script = IosBuildStepGenerator.generate_gym_script
+      script = IosBuildStepGenerator.new(flow_cli_config[:gym_config]).generate_gym_script
       {
         name: "build",
-        plugin: {
-          name: name,
-          scripts: [script]
-        }
+        scripts: [script]
       }
     end
 

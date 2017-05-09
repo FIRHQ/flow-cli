@@ -1,8 +1,8 @@
 require "spec_helper"
 module Flow::Cli
-  RSpec.describe Commander do
+  RSpec.describe CmdManager do
     before(:each) do
-      @cmd = Commander.new
+      @cmd = CmdManager.new
       File.delete(".flow.yml") if File.file?(".flow.yml")
       File.delete("test.gradle") if File.file?("test.gradle")
       File.delete("test.xcodeproj") if File.file?("test.xcodeproj")

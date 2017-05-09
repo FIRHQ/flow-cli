@@ -4,8 +4,7 @@ require "flow/cli/exception"
 require "flow/cli/project_analytics"
 require "flow/cli/flow_yaml_builder"
 require "flow/cli/ios_build_step_generator"
-
-require 'flow/cli/commander'
+require 'flow/cli/cmd_manager'
 
 module Flow
   module Cli

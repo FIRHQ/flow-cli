@@ -1,7 +1,9 @@
 require 'yaml'
 require 'tty'
+require 'thor'
+
 module Flow::Cli
-  class Commander
+  class CmdManager < Thor
     def build_yaml_file
       config = ProjectAnalytics.new.config
       str = FlowYamlBuilder.new(config).build_yaml

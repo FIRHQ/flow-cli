@@ -4,7 +4,18 @@ module Flow::Cli
   class ProjectAnalytics
     attr_accessor :config
     def initialize(config = {})
+      # 要 env
+      config[:flow_language] = language(platform)
       self.config = config
+    end
+
+    def language(platform)
+      case platform
+      when "ios"
+        "objc"
+      when "android"
+        "android"
+      end
     end
 
     def platform

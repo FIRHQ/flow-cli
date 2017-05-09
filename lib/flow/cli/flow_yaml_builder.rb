@@ -1,17 +1,17 @@
 module Flow::Cli
   class FlowYamlBuilder
-    attr_accessor :config
-    def initialize(config = {})
-      self.config = config
+    attr_accessor :flow_cli_config
+    def initialize(flow_cli_config = {})
+      self.flow_cli_config = flow_cli_config
     end
 
     def create_default_flow_dict
       flow = {}
 
-      flow[:name] = config[:name]
-      flow[:language] = config[:language]
+      flow[:name] = flow_cli_config[:name]
+      flow[:language] = flow_cli_config[:language]
 
-      flow[:env] = config[:env]
+      flow[:env] = flow_cli_config[:env]
       flow[:trigger] = {
         push: %w[develop master]
       }
@@ -27,7 +27,7 @@ module Flow::Cli
     # 创建一些标准的steps
     def generate_normal_steps
       steps = []
-      steps << generate_step_dict("init", name: "#{config[:language]}_init")
+      steps << generate_step_dict("init", name: "#{flow_cli_config[:language]}_init")
       steps << generate_step_dict("git")
 
       steps
@@ -35,7 +35,14 @@ module Flow::Cli
 
     # 生成编译脚本
     def generate_custom_build_step
-      # TODO: build custom build step
+      script = IosBuildStepGenerator.generate_gym_script
+      {
+        name: "build",
+        plugin: {
+          name: name,
+          scripts: [script]
+        }
+      }
     end
 
     def generate_step_dict(name, plugin_config = nil)

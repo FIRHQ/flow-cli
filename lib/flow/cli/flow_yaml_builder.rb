@@ -49,7 +49,7 @@ module Flow::Cli
 
     # 生成编译脚本
     def generate_custom_build_step
-      script = IosBuildStepGenerator.new(flow_cli_config[:gym_config]).generate_gym_script
+      script = IosBuildStepGenerator.new(flow_cli_config).generate_gym_script
       {
         name: "build",
         scripts: [script]

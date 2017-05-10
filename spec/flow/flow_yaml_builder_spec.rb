@@ -7,7 +7,7 @@ module Flow::Cli
 
     it 'could generate_normal_steps' do
       @builder.flow_cli_config = {
-        language: "android"
+        flow_language: "android"
       }
 
       steps = @builder.generate_normal_steps
@@ -20,8 +20,7 @@ module Flow::Cli
 
     it "could generate_custom_build_step " do
       @builder.flow_cli_config = {
-        language: "ios",
-        gym_config: {} # stub
+        language: "ios"
       }
 
       step = @builder.generate_custom_build_step

@@ -22,6 +22,18 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
+  spec.post_install_message = %q(
+  _____ _     _____        ______ ___    ____ _     ___
+ |  ___| |   / _ \ \      / / ___|_ _|  / ___| |   |_ _|
+ | |_  | |  | | | \ \ /\ / / |    | |  | |   | |    | |
+ |  _| | |__| |_| |\ V  V /| |___ | |  | |___| |___ | |
+ |_|   |_____\___/  \_/\_/(_)____|___|  \____|_____|___|
+
+ ****************************************************
+ 这是 flow.ci CLI 的早期版本，暂时只支持 ios 项目
+
+  )
+
   spec.add_development_dependency "bundler", "~> 1.14"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"

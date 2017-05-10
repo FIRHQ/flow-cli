@@ -15,6 +15,10 @@ module Flow::Cli
     desc "build_yaml_file", "build flow ci project yaml"
     def build_yaml_file
       config = ProjectAnalytics.new.config
+      if config[:flow_language] == "objc" && ENV["FLOW_CLI_TEST"] != "TRUE"
+        config[:gym_config] = ask_gym_build_options
+      end
+
       str = FlowYamlBuilder.new(config).build_yaml
       raise YamlError, "存在 flow.yml, 删除后才能重新生成" if File.file?("flow.yml")
       File.open("flow.yml", "wb") do |file|
@@ -42,6 +46,11 @@ module Flow::Cli
     map ['v', '-v', '--version'] => :version
     def version
       puts VERSION
+    end
+
+    desc "upgrade", "upgrade flow-cli"
+    def upgrade
+      run_script "gem install flow-cli"
     end
 
     desc 'help', 'Describe available commands or one specific command (aliases: `h`).'
@@ -97,6 +106,14 @@ module Flow::Cli
 
       def print_line
         puts "*" * 30
+      end
+
+      def ask_gym_build_options
+        user_gym_config = {}
+        user_gym_config[:export_method] = @prompt.select("export_method? ", %w[development app-store ad-hoc package enterprise developer-id])
+        user_gem_config[:silent] = true if @prompt.yes?("less log?")
+
+        user_gem_config
       end
     end
   end

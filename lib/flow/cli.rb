@@ -1,10 +1,10 @@
-require "flow/cli/version"
-require "flow/cli/vendors/all"
-require "flow/cli/exception"
-require "flow/cli/project_analytics"
-require "flow/cli/flow_yaml_builder"
-require "flow/cli/ios_build_step_generator"
-require 'flow/cli/cmd_manager'
+require_relative "./cli/version"
+require_relative "./cli/vendors/all"
+require_relative "./cli/exception"
+require_relative "./cli/project_analytics"
+require_relative "./cli/flow_yaml_builder"
+require_relative "./cli/ios_build_step_generator"
+require_relative './cli/cmd_manager'
 
 module Flow
   module Cli

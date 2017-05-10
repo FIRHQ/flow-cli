@@ -19,7 +19,7 @@ module Flow::Cli
     end
 
     def platform
-      raise ConflictPlatformError, "conflict platform" if ios? && android?
+      raise ConflictPlatformError, "conflict platforms" if ios? && android?
       return "ios" if ios?
       return "android" if android?
       raise ConflictPlatformError, "conflict, unknown platform"

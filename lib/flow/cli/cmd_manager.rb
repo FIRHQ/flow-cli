@@ -91,9 +91,6 @@ module Flow::Cli
       end
 
       def yml_build_script
-        if File.file?(FLOW_YML_NAME)
-
-        end
         if File.file?(FLOW_YML_NAME) == false
           return unless @prompt.yes?('no flow.yml found, need to build . y/n')
           build_yaml_file

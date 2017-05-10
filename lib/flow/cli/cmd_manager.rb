@@ -16,8 +16,8 @@ module Flow::Cli
     def build_yaml_file
       config = ProjectAnalytics.new.config
       str = FlowYamlBuilder.new(config).build_yaml
-      raise YamlError, "存在 .flow.yml, 删除后才能重新生成" if File.file?(".flow.yml")
-      File.open(".flow.yml", "wb") do |file|
+      raise YamlError, "存在 flow.yml, 删除后才能重新生成" if File.file?("flow.yml")
+      File.open("flow.yml", "wb") do |file|
         file.write(str)
       end
       @warning.call "yaml created...\n#{str}"
@@ -25,10 +25,11 @@ module Flow::Cli
 
     desc "run_build_script", "run flow yml build script"
     def run_build_script
+      show_build_script
       try_run_yml_build_script
     end
 
-    desc "show_yml_build_script", "show flow yml build script"
+    desc "show_build_script", "show flow yml build script"
     def show_build_script
       script = yml_build_script
       puts @warning.call "This is the build script in yaml"
@@ -37,10 +38,25 @@ module Flow::Cli
       print_line
     end
 
+    desc "version", "show flow cli version"
+    map ['v', '-v', '--version'] => :version
+    def version
+      puts VERSION
+    end
+
+    desc 'help', 'Describe available commands or one specific command (aliases: `h`).'
+    map Thor::HELP_MAPPINGS => :help
+    def help(command = nil, subcommand = false)
+      print_line
+      puts @error.call("VERSION ALPHA\n Support IOS project ONLY, temporarily.")
+      print_line
+      super
+    end
+
     no_commands do
       def select_yml_steps(step_name)
-        raise YamlError, "Can not found .flow.yml" unless File.file?(".flow.yml")
-        dict = YAML.safe_load(File.read(".flow.yml"))
+        raise YamlError, "Can not found flow.yml" unless File.file?("flow.yml")
+        dict = YAML.safe_load(File.read("flow.yml"))
 
         the_steps = []
         dict["flows"].map do |flow|
@@ -65,8 +81,8 @@ module Flow::Cli
       end
 
       def yml_build_script
-        if File.file?(".flow.yml") == false
-          return unless @prompt.yes?('no .flow.yml found, need to build . y/n')
+        if File.file?("flow.yml") == false
+          return unless @prompt.yes?('no flow.yml found, need to build . y/n')
           build_yaml_file
         end
         scripts = get_scripts(select_yml_steps("build"))
@@ -83,6 +99,5 @@ module Flow::Cli
         puts "*" * 30
       end
     end
-
   end
 end

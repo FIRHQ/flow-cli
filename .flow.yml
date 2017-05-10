@@ -1,0 +1,21 @@
+---
+env:
+- FLOW_YAML_FROM=flow-cli
+flows:
+- name: default_flow_by_cli
+  language: 
+  env: 
+  trigger:
+    push:
+    - develop
+    - master
+  steps:
+  - name: init
+    plugin:
+      name: _init
+  - name: git
+    plugin:
+      name: git
+  - name: build
+    scripts:
+    - echo "hello world"

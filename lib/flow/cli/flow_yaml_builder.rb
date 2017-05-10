@@ -41,7 +41,7 @@ module Flow::Cli
     # 创建一些标准的steps
     def generate_normal_steps
       steps = []
-      steps << generate_step_dict("init", name: "#{flow_cli_config[:language]}_init")
+      steps << generate_step_dict("init", name: "#{flow_cli_config[:flow_language]}_init")
       steps << generate_step_dict("git")
 
       steps

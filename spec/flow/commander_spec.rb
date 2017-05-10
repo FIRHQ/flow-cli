@@ -3,7 +3,7 @@ module Flow::Cli
   RSpec.describe CmdManager do
     before(:each) do
       @cmd = CmdManager.new
-      File.delete("flow.yml") if File.file?("flow.yml")
+      File.delete(FLOW_YML_NAME) if File.file?(FLOW_YML_NAME)
       File.delete("test.gradle") if File.file?("test.gradle")
       File.delete("test.xcodeproj") if File.file?("test.xcodeproj")
     end
@@ -16,7 +16,7 @@ module Flow::Cli
     it "could build_yaml_file" do
       FileUtils.touch "test.xcodeproj"
       @cmd.build_yaml_file
-      expect(File.file?("flow.yml")).to eq true
+      expect(File.file?(FLOW_YML_NAME)).to eq true
     end
 
     it 'could get_scripts' do
@@ -33,7 +33,7 @@ module Flow::Cli
       str = FlowYamlBuilder.new(config).build_yaml
       str.gsub!("fastlane gym build --export_method ad-hoc", 'echo "hello world"')
 
-      File.open("flow.yml", "wb") do |file|
+      File.open(FLOW_YML_NAME, "wb") do |file|
         file.write(str)
       end
 

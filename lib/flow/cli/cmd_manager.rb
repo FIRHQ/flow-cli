@@ -15,13 +15,14 @@ module Flow::Cli
     desc "build_yaml_file", "build flow ci project yaml"
     def build_yaml_file
       config = ProjectAnalytics.new.config
-      if config[:flow_language] == "objc" && ENV["FLOW_CLI_TEST"] != "TRUE"
-        config[:gym_config] = ask_gym_build_options
-      end
+
+      # 用来交互
+      # TODO: 优化点，以后放到其他地方
+      config[:gym_config] = ask_gym_build_options if config[:flow_language] == "objc" && ENV["FLOW_CLI_TEST"] != "TRUE"
 
       str = FlowYamlBuilder.new(config).build_yaml
-      raise YamlError, "存在 flow.yml, 删除后才能重新生成" if File.file?("flow.yml")
-      File.open("flow.yml", "wb") do |file|
+      raise YamlError, "存在 #{FLOW_YML_NAME}, 删除后才能重新生成" if File.file?(FLOW_YML_NAME)
+      File.open(FLOW_YML_NAME, "wb") do |file|
         file.write(str)
       end
       @warning.call "yaml created...\n#{str}"
@@ -64,8 +65,8 @@ module Flow::Cli
 
     no_commands do
       def select_yml_steps(step_name)
-        raise YamlError, "Can not found flow.yml" unless File.file?("flow.yml")
-        dict = YAML.safe_load(File.read("flow.yml"))
+        raise YamlError, "Can not found flow.yml" unless File.file?(FLOW_YML_NAME)
+        dict = YAML.safe_load(File.read(FLOW_YML_NAME))
 
         the_steps = []
         dict["flows"].map do |flow|
@@ -90,7 +91,10 @@ module Flow::Cli
       end
 
       def yml_build_script
-        if File.file?("flow.yml") == false
+        if File.file?(FLOW_YML_NAME)
+
+        end
+        if File.file?(FLOW_YML_NAME) == false
           return unless @prompt.yes?('no flow.yml found, need to build . y/n')
           build_yaml_file
         end
@@ -111,9 +115,9 @@ module Flow::Cli
       def ask_gym_build_options
         user_gym_config = {}
         user_gym_config[:export_method] = @prompt.select("export_method? ", %w[development app-store ad-hoc package enterprise developer-id])
-        user_gem_config[:silent] = true if @prompt.yes?("less log?")
+        user_gym_config[:silent] = "" if @prompt.yes?("less log?")
 
-        user_gem_config
+        user_gym_config
       end
     end
   end

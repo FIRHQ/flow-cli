@@ -31,7 +31,7 @@ module Flow::Cli
     end
 
     def build_gym_params
-      @gym_config.map { |k, v| "--#{k} #{v}" }.join(' ')
+      @gym_config.map { |k, v| "--#{k} #{v}".rstrip }.join(' ')
     end
   end
 end

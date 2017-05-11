@@ -15,7 +15,6 @@ module Flow::Cli
     desc "build_yaml_file", "build flow ci project yaml"
     def build_yaml_file
       config = ProjectAnalytics.new.config
-
       # 用来交互
       # TODO: 优化点，以后放到其他地方
       config[:gym_config] = ask_gym_build_options if config[:flow_language] == "objc" && ENV["FLOW_CLI_TEST"] != "TRUE"
@@ -43,7 +42,7 @@ module Flow::Cli
       print_line
     end
 
-    desc "version", "show flow cli version"
+    desc "version", "show flow cli version #{VERSION}"
     map ['v', '-v', '--version'] => :version
     def version
       puts VERSION

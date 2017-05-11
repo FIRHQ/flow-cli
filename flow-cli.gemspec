@@ -41,7 +41,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rubocop"
   spec.add_development_dependency "byebug"
 
-  spec.add_dependency "thor", ">= 0.15"
-  spec.add_dependency "tty", ">= 0.7"
-  spec.add_dependency "fastlane", ">= 2.28"
+  spec.add_dependency "thor", "~> 0.18"
+  spec.add_dependency "tty", "~> 0.7"
+  spec.add_dependency "fastlane", "~> 2.28"
 end

@@ -44,4 +44,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "thor", "~> 0.18"
   spec.add_dependency "tty", "~> 0.7"
   spec.add_dependency "fastlane", "~> 2.28"
+  spec.add_dependency "oj", "~> 2"
+  spec.add_dependency "rest-client"
 end

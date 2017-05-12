@@ -15,7 +15,7 @@ module Flow::Cli
 
         def save(settings)
           old = read
-          settings = old.merge(settings).compact
+          settings = old.merge(settings).compact.stringify_keys
           yaml = settings.to_yaml
           File.open(FLOW_CLI_CONFIG, "w") do |file|
             file << yaml
@@ -31,7 +31,7 @@ module Flow::Cli
 
         def read
           return {} unless File.file?(FLOW_CLI_CONFIG)
-          config = YAML.safe_load(File.open(FLOW_CLI_CONFIG))
+          config = YAML.safe_load(File.read(FLOW_CLI_CONFIG))
           raise "yaml load is not a hash #{config.class}" unless config.is_a? Hash
           config
         end

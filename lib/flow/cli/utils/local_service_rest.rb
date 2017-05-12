@@ -9,7 +9,7 @@ module Flow::Cli
       class JSONParseError < Error; end
       class << self
         %w[get delete head].each do |word|
-          define_method word.to_sym do |url, params = {}, timeout = 5, retry_times = 5|
+          define_method word.to_sym do |url, params = {}, timeout = 10, retry_times = 5|
             params.merge!(add_those_to_params) # 将默认参数添加到params 里
             url = basic_url + url
             exception = nil

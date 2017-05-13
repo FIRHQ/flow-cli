@@ -57,7 +57,7 @@ module Flow::Cli
                 request = ::RestClient::Request.execute(
                   method:  word,
                   url:     url,
-                  payload: payload.to_json,
+                  payload: payload,
                   headers: json_content_type,
                   timeout: timeout
                 )

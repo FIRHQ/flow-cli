@@ -34,6 +34,36 @@ module Flow::Cli
         send_to_api(:get, "/projects/#{project_id}/flows")
       end
 
+      # 5909e8c4ef2cb07bcefc3dbd
+      def upload_p12(flow_id, file, password = nil)
+        send_to_api(:post, "/flows/#{flow_id}/certificates",
+                    file: standard_file(file),
+                    type: "ios",
+                    password: password)
+      end
+
+      def load_p12s(flow_id)
+        send_to_api(:get, "/flows/#{flow_id}/certificates")
+      end
+
+      def delete_p12(p12_id)
+        send_to_api(:delete, "/certificates/#{p12_id}")
+      end
+
+      def upload_provision(flow_id, file)
+        send_to_api(:post, "/flows/#{flow_id}/mobileprovisions",
+                    file: standard_file(file),
+                    flow_id: flow_id)
+      end
+
+      def load_provisions(flow_id)
+        send_to_api(:get, "/flows/#{flow_id}/mobileprovisions")
+      end
+
+      def delete_provision(mobileprovisions_id)
+        send_to_api(:delete, "/mobileprovisions/#{mobileprovisions_id}")
+      end
+
       def fetch_flow(flow_id, project_id)
         send_to_api(:get, "/flows/#{flow_id}", project_id: project_id)
       end
@@ -53,6 +83,11 @@ module Flow::Cli
       def init_access_token
         answer = self.class.login(email, password)
         self.user_access_token = answer[:access_token]
+      end
+
+      def standard_file(file)
+        return File.open(file) if file.is_a?(String)
+        file
       end
 
       class << self

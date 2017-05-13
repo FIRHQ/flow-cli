@@ -1,6 +1,7 @@
 require 'yaml'
 require 'tty'
 require 'thor'
+require 'byebug'
 
 module Flow::Cli
   class CmdManager < Thor
@@ -10,7 +11,61 @@ module Flow::Cli
       @pastel = Pastel.new
       @error    = @pastel.red.bold.detach
       @warning  = @pastel.yellow.detach
+      @db_manager = Utils::DbManager
+      @api_manager = Utils::FlowApiManager.load_from_db
+
     end
+
+    desc "flow_ci_bind", "flow ci bind"
+    def flow_ci_bind
+      email = @prompt.ask("email?")
+      password = @prompt.mask("password?")
+      Utils::FlowApiManager.login(email, password)
+      puts "login success"
+    end
+
+    desc "project_init", "project_init"
+    def project_init
+      @api_manager = Utils::FlowApiManager.load_from_db
+      projects = @api_manager.fetch_projects
+
+      dict = {}
+      projects.each { |p| dict[(p[:name]).to_s] = p[:id] }
+
+      current_project_id = @prompt.select("Choose your project?", dict)
+
+      @db_manager.save_attribute(:current_project_id, current_project_id)
+
+      flows = @api_manager.fetch_flows(current_project_id)
+
+      current_flow_id = if flows.count == 1
+                          flows.first[:id]
+                        else
+                          dict = {}
+                          flows.each { |p| dict[(p[:name]).to_s] = p[:id] }
+                          @prompt.select("Choose your flow?", dict)
+                        end
+      @db_manager.save_attribute(:current_flow_id, current_flow_id)
+      puts "project_id = #{current_project_id}, flow_id = #{current_flow_id}. saved this info..."
+    end
+
+    desc "upload_p12 FILE_PATH", "upload_p12"
+    def upload_p12(file_path)
+      @api_manager = Utils::FlowApiManager.load_from_db
+
+      project_init unless @db_manager.read_attribute(:current_flow_id)
+
+      @api_manager.upload_p12(@db_manager.read_attribute(:current_flow_id), file_path)
+    end
+
+    desc "list_p12s", "list_p12s"
+    def list_p12s
+      puts @api_manager.load_p12s(@db_manager.read_attribute(:current_flow_id))
+    end
+
+    # def upload_provision
+    #
+    # end
 
     desc "build_yaml_file", "build flow ci project yaml"
     def build_yaml_file

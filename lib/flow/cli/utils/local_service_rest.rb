@@ -92,7 +92,7 @@ module Flow::Cli
         end
 
         def json_content_type
-          { content_type: :json, accept: :json }
+          { accept: :json }
         end
 
         def basic_url

@@ -46,8 +46,8 @@ module Flow::Cli
         send_to_api(:get, "/flows/#{flow_id}/certificates")
       end
 
-      def delete_p12(p12_id)
-        send_to_api(:delete, "/certificates/#{p12_id}")
+      def delete_p12(p12_id, flow_id)
+        send_to_api(:delete, "/certificates/#{p12_id}", flow_id: flow_id)
       end
 
       def upload_provision(flow_id, file)
@@ -60,8 +60,8 @@ module Flow::Cli
         send_to_api(:get, "/flows/#{flow_id}/mobileprovisions")
       end
 
-      def delete_provision(mobileprovisions_id)
-        send_to_api(:delete, "/mobileprovisions/#{mobileprovisions_id}")
+      def delete_provision(mobileprovisions_id,flow_id)
+        send_to_api(:delete, "/mobileprovisions/#{mobileprovisions_id}", flow_id: flow_id)
       end
 
       def fetch_flow(flow_id, project_id)

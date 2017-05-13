@@ -5,7 +5,6 @@ require 'thor'
 module Flow::Cli
   module Commands
     class Remote < Thor
-
       def initialize(*args)
         super(*args)
         @prompt = TTY::Prompt.new
@@ -30,7 +29,7 @@ module Flow::Cli
         begin
           file_origin = `git remote -v`.to_s.match("git.*.git").first
         rescue
-          puts @warn.call "read git origin fail..."
+          puts @warning.call "read git origin fail..."
         end
 
         dict = {}
@@ -59,15 +58,16 @@ module Flow::Cli
         project_init unless @db_manager.read_attribute(:current_flow_id)
 
         api_p12s = @api_manager.load_p12s(@db_manager.read_attribute(:current_flow_id))
-        old_p12 = api_p12s.find { |p12| p12[:name] == basename }
-        if old_p12.nil?
-          if @prompt.ask? "found a same name file, override?"
-            @api_manager.delete_p12(old_p12[:id])
+        old_p12 = api_p12s.find { |p12| p12[:filename] == basename }
+        unless old_p12.nil?
+          if @prompt.yes? "found a same name file, override?"
+            @api_manager.delete_p12(old_p12[:id], @db_manager.read_attribute(:current_flow_id))
           else
             return puts "canceled.."
           end
         end
         @api_manager.upload_p12(@db_manager.read_attribute(:current_flow_id), file_path, password)
+        puts "uploaded."
       end
 
       desc "list_p12s", "list_p12s"
@@ -75,23 +75,22 @@ module Flow::Cli
         puts @api_manager.load_p12s(@db_manager.read_attribute(:current_flow_id))
       end
 
-
       desc "upload_provision", "upload_provision"
-      def upload_provision
+      def upload_provision(file_path)
         basename = File.basename file_path
         project_init unless @db_manager.read_attribute(:current_flow_id)
 
         api_provisions = @api_manager.load_provisions(@db_manager.read_attribute(:current_flow_id))
-        old_provision = api_provisions.find { |provision| provision[:name] == basename }
-        if old_provision.nil?
-          if @prompt.ask? "found a same name file, override?"
-            @api_manager.delete_provision(old_provision[:id])
+        old_provision = api_provisions.find { |provision| provision[:filename] == basename }
+        unless old_provision.nil?
+          if @prompt.yes? "found a same name file, override?"
+            @api_manager.delete_provision(old_provision[:id], @db_manager.read_attribute(:current_flow_id))
           else
             return puts "canceled.."
           end
         end
-        @api_manager.provision(@db_manager.read_attribute(:current_flow_id), file_path)
-
+        @api_manager.upload_provision(@db_manager.read_attribute(:current_flow_id), file_path)
+        puts "uploaded."
       end
 
       desc "list_provisions", "list provisions"

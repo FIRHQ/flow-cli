@@ -32,6 +32,8 @@ Gem::Specification.new do |spec|
  ****************************************************
  这是 flow.ci CLI 的早期版本，暂时只支持 ios 项目
 
+0.0.3 版本新增 flow-cli remote 系列指令，支持传证书，传provisions 文件
+
   )
 
   spec.add_development_dependency "bundler", "~> 1.14"

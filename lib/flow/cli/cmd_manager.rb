@@ -12,7 +12,6 @@ module Flow::Cli
       @error    = @pastel.red.bold.detach
       @warning  = @pastel.yellow.detach
       @db_manager = Utils::DbManager
-      @api_manager = Utils::FlowApiManager.load_from_db
     end
 
     desc "remote ...ARGS", "manage flow ci"

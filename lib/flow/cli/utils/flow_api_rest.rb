@@ -11,7 +11,7 @@ module Flow::Cli
           alias_method "#{method}_old", method
           define_method method do |*args, &blk|
             ret = __send__ "#{method}_old", *args, &blk
-            raise "response_body = #{ret[:response_body]}" if ret.is_a?(Hash) && ret[:status] == false
+            raise FlowApiError, "response_body = #{ret[:response_body]}" if ret.is_a?(Hash) && ret[:status] == false
             ret
           end
         end

@@ -1,18 +1,19 @@
 require 'yaml'
+require 'byebug'
 require 'tty'
 require 'thor'
 
 module Flow::Cli
   module Commands
     class Remote < Thor
-      def initialize(*args)
+      def initialize(*args, &proc)
         super(*args)
         @prompt = TTY::Prompt.new
         @pastel = Pastel.new
-        @error    = @pastel.red.bold.detach
-        @warning  = @pastel.yellow.detach
+        @warning = @pastel.yellow.detach
+        @error = @pastel.red.bold.detach
         @db_manager = Utils::DbManager
-        @api_manager = Utils::FlowApiManager.load_from_db
+        @api_manager = Utils::FlowApiManager.load_from_db(&proc)
       end
 
       desc "login", "bind flow ci account to flow cli."
@@ -23,9 +24,15 @@ module Flow::Cli
         puts "login success"
       end
 
+      desc "reset", "reset flow api info data"
+      def reset
+        @db_manager.overide_save({})
+        puts "reset success..."
+      end
+
       desc "project_init", "set a project from flow ci to operation"
       def project_init
-        projects = @api_manager.fetch_projects
+        projects = current_api_manager.fetch_projects
         begin
           file_origin = `git remote -v`.to_s.match("git.*.git").first
         rescue
@@ -39,7 +46,7 @@ module Flow::Cli
 
         @db_manager.save_attribute(:current_project_id, current_project_id)
 
-        flows = @api_manager.fetch_flows(current_project_id)
+        flows = current_api_manager.fetch_flows(current_project_id)
 
         current_flow_id = if flows.count == 1
                             flows.first[:id]
@@ -54,48 +61,69 @@ module Flow::Cli
 
       desc "upload_p12 FILE_PATH [p12 password]", "upload_p12"
       def upload_p12(file_path, password = nil)
+        choosed_project_check
         basename = File.basename file_path
         project_init unless @db_manager.read_attribute(:current_flow_id)
 
-        api_p12s = @api_manager.load_p12s(@db_manager.read_attribute(:current_flow_id))
+        api_p12s = current_api_manager.load_p12s(@db_manager.read_attribute(:current_flow_id))
         old_p12 = api_p12s.find { |p12| p12[:filename] == basename }
         unless old_p12.nil?
           if @prompt.yes? "found a same name file, override?"
-            @api_manager.delete_p12(old_p12[:id], @db_manager.read_attribute(:current_flow_id))
+            current_api_manager.delete_p12(old_p12[:id], @db_manager.read_attribute(:current_flow_id))
           else
             return puts "canceled.."
           end
         end
-        @api_manager.upload_p12(@db_manager.read_attribute(:current_flow_id), file_path, password)
+        current_api_manager.upload_p12(@db_manager.read_attribute(:current_flow_id), file_path, password)
         puts "uploaded."
       end
 
       desc "list_p12s", "list_p12s"
       def list_p12s
-        puts @api_manager.load_p12s(@db_manager.read_attribute(:current_flow_id))
+        choosed_project_check
+        puts current_api_manager.load_p12s(@db_manager.read_attribute(:current_flow_id))
       end
 
       desc "upload_provision", "upload_provision"
       def upload_provision(file_path)
+        choosed_project_check
         basename = File.basename file_path
         project_init unless @db_manager.read_attribute(:current_flow_id)
 
-        api_provisions = @api_manager.load_provisions(@db_manager.read_attribute(:current_flow_id))
+        api_provisions = current_api_manager.load_provisions(@db_manager.read_attribute(:current_flow_id))
         old_provision = api_provisions.find { |provision| provision[:filename] == basename }
         unless old_provision.nil?
           if @prompt.yes? "found a same name file, override?"
-            @api_manager.delete_provision(old_provision[:id], @db_manager.read_attribute(:current_flow_id))
+            current_api_manager.delete_provision(old_provision[:id], @db_manager.read_attribute(:current_flow_id))
           else
             return puts "canceled.."
           end
         end
-        @api_manager.upload_provision(@db_manager.read_attribute(:current_flow_id), file_path)
+        current_api_manager.upload_provision(@db_manager.read_attribute(:current_flow_id), file_path)
         puts "uploaded."
       end
 
       desc "list_provisions", "list provisions"
       def list_provisions
-        puts @api_manager.load_provisions(@db_manager.read_attribute(:current_flow_id))
+        choosed_project_check
+        puts current_api_manager.load_provisions(@db_manager.read_attribute(:current_flow_id))
+      end
+
+      no_commands do
+        private
+
+        def current_api_manager
+          return @current_api_manager unless @current_api_manager.nil?
+          @api_manager.refresh_login  do
+            [@prompt.ask("email?"), @prompt.mask("password?")]
+          end
+          @current_api_manager = @api_manager
+          @current_api_manager
+        end
+
+        def choosed_project_check
+          project_init if @db_manager.read_attribute(:current_project_id).nil?
+        end
       end
     end
   end

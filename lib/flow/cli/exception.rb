@@ -10,4 +10,7 @@ module Flow::Cli
 
   class ParamsError < BaseException
   end
+
+  class FlowApiError < BaseException
+  end
 end

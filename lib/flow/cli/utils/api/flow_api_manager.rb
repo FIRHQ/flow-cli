@@ -11,7 +11,10 @@ module Flow::Cli
           send "#{item}=", hash[item.to_s]
         end
         yield self if block_given?
-        init_access_token if user_access_token.nil?
+      end
+
+      def fetch_user
+        send_to_api("get", "/user")
       end
 
       def fetch_orgs
@@ -27,7 +30,7 @@ module Flow::Cli
       end
 
       def fetch_project(project_id)
-        send_to_api(:get, "/projects/#{project_id}")
+        send_to_apapi_manageri(:get, "/projects/#{project_id}")
       end
 
       def fetch_flows(project_id)
@@ -60,7 +63,7 @@ module Flow::Cli
         send_to_api(:get, "/flows/#{flow_id}/mobileprovisions")
       end
 
-      def delete_provision(mobileprovisions_id,flow_id)
+      def delete_provision(mobileprovisions_id, flow_id)
         send_to_api(:delete, "/mobileprovisions/#{mobileprovisions_id}", flow_id: flow_id)
       end
 
@@ -85,6 +88,26 @@ module Flow::Cli
         self.user_access_token = answer[:access_token]
       end
 
+      def refresh_login(&proc)
+        fetch_user
+      rescue FlowApiError
+        puts "login fail, relogin..."
+        tmp_email = nil
+        tmp_password = nil
+        tmp_email, tmp_password = yield unless proc.nil?
+        self.email = tmp_email || email
+        self.password = tmp_password || password
+        login(email, password)
+        self
+      end
+
+      def login(email, password)
+        hash = self.class.login(email, password)
+        %i[email password user_access_token].each do |item|
+          send "#{item}=", hash[item]
+        end
+      end
+
       def standard_file(file)
         return File.open(file) if file.is_a?(String)
         file
@@ -93,12 +116,13 @@ module Flow::Cli
       class << self
         def login(email, password)
           dict = FlowApiRest.post("/login", login: email, password: password)
-          DbManager.save(email: email, password: password)
-          dict
+          DbManager.save(email: email, password: password, user_access_token: dict[:access_token])
+          { email: email, password: password, user_access_token: dict[:access_token] }
         end
 
         def load_from_db
-          new(DbManager.read)
+          dict = DbManager.read
+          new(dict)
         end
       end
     end

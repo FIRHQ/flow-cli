@@ -32,6 +32,7 @@ Gem::Specification.new do |spec|
  ****************************************************
  这是 flow.ci CLI 的早期版本，暂时只支持 ios 项目
 
+0.0.4 版本修正 在执行一些remote 指令，如果没登录，会报错的问题 另附增加 remote reset 指令
 0.0.3 版本新增 flow-cli remote 系列指令，支持传证书，传provisions 文件
 
   )

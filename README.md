@@ -22,7 +22,8 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+flow-cli --help # help 
+flow-cli remote # flow ci operations.
 
 ## Development
 

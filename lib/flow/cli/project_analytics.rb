@@ -1,5 +1,3 @@
-require_relative './ios_build_step_generator'
-
 module Flow::Cli
   class ProjectAnalytics
     attr_accessor :config

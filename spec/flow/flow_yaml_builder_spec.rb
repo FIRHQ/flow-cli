@@ -1,8 +1,8 @@
 require "spec_helper"
 module Flow::Cli
-  RSpec.describe FlowYamlBuilder do
+  RSpec.describe YamlBuilders::FlowYamlBuilder do
     before(:each) do
-      @builder = FlowYamlBuilder.new
+      @builder = YamlBuilders::FlowYamlBuilder.new
     end
 
     it 'could generate_normal_steps' do

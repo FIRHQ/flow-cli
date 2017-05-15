@@ -25,7 +25,7 @@ module Flow::Cli
 
     # 返回 由 gym 调用的 core 的生成的相关参数
     def merge_user_cli_gym_config
-      user_gym_config = { export_method: 'ad-hoc' }.merge(cli_config[:gym_config] || {} )
+      user_gym_config = { export_method: 'ad-hoc' }.merge(cli_config[:gym_config] || {})
       @gym_config.merge!(user_gym_config)
       @gym_config
     end

@@ -30,7 +30,7 @@ module Flow::Cli
     it "could try run script" do
       FileUtils.touch "test.xcodeproj"
       config = ProjectAnalytics.new.config
-      str = YamlBuilders::FlowYamlBuilder.new(config).build_yaml
+      str = YamlBuilders::IosYamlBuilder.new(config).build_yaml
       str.gsub!("fastlane gym build --export_method ad-hoc", 'echo "hello world"')
 
       File.open(FLOW_YML_NAME, "wb") do |file|

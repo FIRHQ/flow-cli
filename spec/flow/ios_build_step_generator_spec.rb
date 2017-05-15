@@ -1,5 +1,5 @@
 require "spec_helper"
-module Flow::Cli
+module Flow::Cli::YamlBuilders
   RSpec.describe IosBuildStepGenerator do
     before(:each) do
       File.delete("test.xcodeproj") if File.file?("test.xcodeproj")

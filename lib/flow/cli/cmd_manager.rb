@@ -24,7 +24,7 @@ module Flow::Cli
       # TODO: 优化点，以后放到其他地方
       config[:gym_config] = ask_gym_build_options if config[:flow_language] == "objc" && ENV["FLOW_CLI_TEST"] != "TRUE"
 
-      str = YamlBuilders::FlowYamlBuilder.new(config).build_yaml
+      str = YamlBuilders::FlowYamlBuilder.init_yaml_builder(config).build_yaml
       raise YamlError, "存在 #{FLOW_YML_NAME}, 删除后才能重新生成" if File.file?(FLOW_YML_NAME)
       File.open(FLOW_YML_NAME, "wb") do |file|
         file.write(str)

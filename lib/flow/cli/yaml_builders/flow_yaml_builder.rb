@@ -66,6 +66,16 @@ module Flow::Cli
         step_dict[:plugin].merge!(plugin_config) if plugin_config
         step_dict
       end
+
+      class << self
+        def init_yaml_builder(flow_cli_config)
+          if flow_cli_config[:flow_language] == "objc"
+            IosYamlBuilder.new(flow_cli_config)
+          else
+            new(flow_cli_config)
+          end
+        end
+      end
     end
   end
 end

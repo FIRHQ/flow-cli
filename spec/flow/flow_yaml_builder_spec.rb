@@ -2,7 +2,7 @@ require "spec_helper"
 module Flow::Cli
   RSpec.describe YamlBuilders::FlowYamlBuilder do
     before(:each) do
-      @builder = YamlBuilders::FlowYamlBuilder.new
+      @builder = YamlBuilders::IosYamlBuilder.new
     end
 
     it 'could generate_normal_steps' do
@@ -12,7 +12,7 @@ module Flow::Cli
 
       steps = @builder.generate_normal_steps
       expect(steps).to be_a Array
-      expect(steps.count).to eq 2
+      expect(steps.count).to eq 3
 
       expect(steps.first[:name]).to eq "init"
       expect(steps.first[:plugin][:name]).to eq "android_init"

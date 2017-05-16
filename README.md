@@ -23,7 +23,53 @@ Or install it yourself as:
 ## Usage
 
 flow-cli --help # help 
-flow-cli remote # flow ci operations.
+flow-cli remote --help# flow ci operation help.
+
+## Example
+
+### flow-cli login
+
+```
+➜  flow-cli git:(master) ✗ flow-cli remote login
+email? jc@fir.im
+password? ••••••••
+you info saved to ~/.flow_cli_config.yml
+login success...
+```
+
+### Choose a project 
+
+```
+➜  flow-cli git:(master) ✗ flow-cli remote project_init
+Choose your project? FIRHQ/flow-cli
+project_id = 591a8ff86c112a739a1abefe, flow_id = 591a9003ef2cb037c03c0c94. saved this info...
+```
+
+### fetch latest jobs
+
+```
+  flow-cli git:(master) ✗ flow-cli remote fetch_latest_jobs
+┌──────┬──────────┬──────┬───────┬──────────────┬─────────────────────────┬─────────────────────────────────────────────────────────────────────────────────────────┐
+│number│event_type│branch│status │commit_log    │created_at_str           │url                                                                                      │
+├──────┼──────────┼──────┼───────┼──────────────┼─────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────┤
+│8     │push      │master│success│update version│2017-05-16 17:38:36 +0800│https://dashboard.flow.ci/projects/xxxxxxxxx/jobs/591ac89c6c112a4dfa1abf3f│
+│7     │push      │master│success│fix           │2017-05-16 17:37:36 +0800│https://dashboard.flow.ci/projects/xxxxxxxxx/jobs/591ac860ef2cb07df83c0df8│
+│6     │push      │master│success│add readme    │2017-05-16 17:21:10 +0800│https://dashboard.flow.ci/projects/xxxxxxxxx/jobs/591ac4866c112a3f6c1abfd8│
+│5     │push      │master│success│fix table show│2017-05-16 17:14:31 +0800│https://dashboard.flow.ci/projects/xxxxxxxxx/jobs/591ac2f76c112a4dfa1abf10│
+│4     │push      │master│success│fix           │2017-05-16 17:05:28 +0800│https://dashboard.flow.ci/projects/xxxxxxxxx/jobs/591ac0d8fbd08628bbd81e4f│
+│3     │push      │master│success│fix           │2017-05-16 17:02:31 +0800│https://dashboard.flow.ci/projects/xxxxxxxxx/jobs/591ac0276c112a3f6c1abf6e│
+│2     │push      │master│failure│refactoring   │2017-05-16 14:38:37 +0800│https://dashboard.flow.ci/projects/xxxxxxxxx/jobs/591a9e6d6c112a04a41abf3a│
+│1     │manual    │master│success│              │2017-05-16 13:37:52 +0800│https://dashboard.flow.ci/projects/xxxxxxxxx/jobs/591a90306c112a2b6f1abf5d│
+└──────┴──────────┴──────┴───────┴──────────────┴─────────────────────────┴─────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### run a manual job
+
+```
+flow-cli git:(master) ✗ flow-cli remote run_manual_job --branch develop
+job started. click ( cmd + click ) url to visit on browser
+https://dashboard.flow.ci/projects/xxxxxxxxxx/jobs/591acbb2fbd0860841d81dd4
+```
 
 ## Development
 

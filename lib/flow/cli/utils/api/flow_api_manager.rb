@@ -71,6 +71,16 @@ module Flow::Cli
         send_to_api(:get, "/flows/#{flow_id}", project_id: project_id)
       end
 
+      def fetch_latest_jobs(flow_id, project_id)
+        answer = send_to_api(:get, "/projects/#{project_id}/jobs", flow_id: flow_id)
+        answer[:list] || []
+      end
+
+      def run_manual_job(flow_id, project_id, branch)
+        send_to_api(:post, "/projects/#{project_id}/manual_hook", flow_id: flow_id, branch: branch)
+      end
+
+
       def send_to_api(action, url, params = {}, slice_items = nil, need_access_token = true)
         params[:access_token] = user_access_token if need_access_token
         params.compact!
@@ -116,7 +126,7 @@ module Flow::Cli
       class << self
         def login(email, password)
           dict = FlowApiRest.post("/login", login: email, password: password)
-          DbManager.save(email: email, user_access_token: dict[:access_token])
+          DbManager.save(email: email, password: password, user_access_token: dict[:access_token])
           { email: email, password: password, user_access_token: dict[:access_token] }
         end
 

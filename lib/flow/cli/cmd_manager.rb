@@ -11,7 +11,7 @@ module Flow::Cli
       @cmd_helper = Utils::CmdHelper.instance
     end
 
-    desc "remote ...ARGS", "manage flow ci"
+    desc "remote ...ARGS", "operations about flow ci."
     subcommand "remote", Commands::Remote
 
     desc "build_yaml_file", "build flow ci project yaml"

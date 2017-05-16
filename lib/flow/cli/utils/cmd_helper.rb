@@ -1,4 +1,5 @@
 require 'forwardable'
+require 'byebug'
 
 module Flow::Cli
   module Utils
@@ -13,7 +14,21 @@ module Flow::Cli
       def_delegators :prompt, :ask, :yes?, :mask, :select
 
       def echo(log)
-        puts log
+        @green ||= @pastel.green.bold.detach
+        puts @green.call log
+      end
+
+      def puts_table(arr_dict, sorted_titles = nil)
+        sorted_titles = arr_dictt.first.keys if sorted_titles.nil?
+        table = TTY::Table.new header: sorted_titles
+        arr_dict.each do |item| 
+          show_item = []
+          sorted_titles.each do |key|
+            show_item << item[key]
+          end
+          table << show_item
+        end
+        puts table.render(:unicode)
       end
 
       def puts_error(log)

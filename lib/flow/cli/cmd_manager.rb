@@ -7,11 +7,8 @@ module Flow::Cli
   class CmdManager < Thor
     def initialize(*args)
       super(*args)
-      @prompt = TTY::Prompt.new
-      @pastel = Pastel.new
-      @error    = @pastel.red.bold.detach
-      @warning  = @pastel.yellow.detach
       @db_manager = Utils::DbManager
+      @cmd_helper = Utils::CmdHelper.new
     end
 
     desc "remote ...ARGS", "manage flow ci"
@@ -29,7 +26,7 @@ module Flow::Cli
       File.open(FLOW_YML_NAME, "wb") do |file|
         file.write(str)
       end
-      @warning.call "yaml created...\n#{str}"
+      @cmd_helper.puts_warning "yaml created...\n#{str}"
     end
 
     desc "run_build_script", "run flow yml build script"
@@ -41,7 +38,7 @@ module Flow::Cli
     desc "show_build_script", "show flow yml build script"
     def show_build_script
       script = yml_build_script
-      puts @warning.call "This is the build script in yaml"
+      puts @cmd_helper.puts_warning "This is the build script in yaml"
       print_line
       puts script
       print_line
@@ -62,7 +59,7 @@ module Flow::Cli
     map Thor::HELP_MAPPINGS => :help
     def help(command = nil, subcommand = false)
       print_line
-      puts @error.call("VERSION ALPHA\n Support IOS project ONLY, temporarily.")
+      puts @cmd_helper.puts_error("VERSION ALPHA\n Support IOS project ONLY, temporarily.")
       print_line
       super
     end
@@ -96,7 +93,7 @@ module Flow::Cli
 
       def yml_build_script
         if File.file?(FLOW_YML_NAME) == false
-          return unless @prompt.yes?('no flow.yml found, need to build . y/n')
+          return unless @cmd_helper.yes?('no flow.yml found, need to build . y/n')
           build_yaml_file
         end
         scripts = get_scripts(select_yml_steps("build"))
@@ -115,8 +112,8 @@ module Flow::Cli
 
       def ask_gym_build_options
         user_gym_config = {}
-        user_gym_config[:export_method] = @prompt.select("export_method? ", %w[development app-store ad-hoc package enterprise developer-id])
-        user_gym_config[:silent] = "" if @prompt.yes?("less log?")
+        user_gym_config[:export_method] = @cmd_helper.select("export_method? ", %w[development app-store ad-hoc package enterprise developer-id])
+        user_gym_config[:silent] = "" if @cmd_helper.yes?("less log?")
 
         user_gym_config
       end

@@ -8,18 +8,15 @@ module Flow::Cli
     class Remote < Thor
       def initialize(*args, &proc)
         super(*args)
-        @prompt = TTY::Prompt.new
-        @pastel = Pastel.new
-        @warning = @pastel.yellow.detach
-        @error = @pastel.red.bold.detach
         @db_manager = Utils::DbManager
         @api_manager = Utils::FlowApiManager.load_from_db(&proc)
+        @cmd_helper = Utils::CmdHelper.new()
       end
 
       desc "login", "bind flow ci account to flow cli."
       def login
-        email = @prompt.ask("email?")
-        password = @prompt.mask("password?")
+        email = @cmd_helpert.ask("email?")
+        password = @cmd_helper.mask("password?")
         Utils::FlowApiManager.login(email, password)
         puts "login success"
       end
@@ -33,16 +30,16 @@ module Flow::Cli
       desc "project_init", "set a project from flow ci to operation"
       def project_init
         projects = current_api_manager.fetch_projects
-        begin
-          file_origin = `git remote -v`.to_s.match("git.*.git").first
-        rescue
-          puts @warning.call "read git origin fail..."
-        end
+        # begin
+        #   file_origin = `git remote -v`.to_s.match("git.*.git").first
+        # rescue
+        #   cmd_helper.puts_warning "read git origin fail..."
+        # end
 
         dict = {}
         dict = Hash[projects.map { |p| [p[:name].to_s, p[:id]] }]
 
-        current_project_id = @prompt.select("Choose your project?", dict)
+        current_project_id = @cmd_helper.select("Choose your project?", dict)
 
         @db_manager.save_attribute(:current_project_id, current_project_id)
 
@@ -53,7 +50,7 @@ module Flow::Cli
                           else
                             dict = {}
                             flows.each { |p| dict[(p[:name]).to_s] = p[:id] }
-                            @prompt.select("Choose your flow?", dict)
+                            @cmd_helper.select("Choose your flow?", dict)
                           end
         @db_manager.save_attribute(:current_flow_id, current_flow_id)
         puts "project_id = #{current_project_id}, flow_id = #{current_flow_id}. saved this info..."
@@ -68,10 +65,10 @@ module Flow::Cli
         api_p12s = current_api_manager.load_p12s(@db_manager.read_attribute(:current_flow_id))
         old_p12 = api_p12s.find { |p12| p12[:filename] == basename }
         unless old_p12.nil?
-          if @prompt.yes? "found a same name file, override?"
+          if @cmd_helper.yes? "found a same name file, override?"
             current_api_manager.delete_p12(old_p12[:id], @db_manager.read_attribute(:current_flow_id))
           else
-            return puts "canceled.."
+            return @cmd_helper.puts_warning "canceled..."
           end
         end
         current_api_manager.upload_p12(@db_manager.read_attribute(:current_flow_id), file_path, password)
@@ -93,7 +90,7 @@ module Flow::Cli
         api_provisions = current_api_manager.load_provisions(@db_manager.read_attribute(:current_flow_id))
         old_provision = api_provisions.find { |provision| provision[:filename] == basename }
         unless old_provision.nil?
-          if @prompt.yes? "found a same name file, override?"
+          if @cmd_helper.yes? "found a same name file, override?"
             current_api_manager.delete_provision(old_provision[:id], @db_manager.read_attribute(:current_flow_id))
           else
             return puts "canceled.."
@@ -115,7 +112,7 @@ module Flow::Cli
         def current_api_manager
           return @current_api_manager unless @current_api_manager.nil?
           @api_manager.refresh_login  do
-            [@prompt.ask("email?"), @prompt.mask("password?")]
+            [@cmd_helper.ask("email?"), @cmd_helper.mask("password?")]
           end
           @current_api_manager = @api_manager
           @current_api_manager

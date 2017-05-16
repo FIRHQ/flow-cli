@@ -39,7 +39,29 @@ module Flow::Cli
 
       cmd_answer = @cmd.try_run_yml_build_script
       expect(cmd_answer.out).to eq "hello world\n"
+    end
+    describe do
+      before(:each) do
+        @old_stdout = $stdout
+      end
+      after(:each) do
+        $stdout = @old_stdout
+      end
 
+      it "could show build script" do
+        FileUtils.touch "test.xcodeproj"
+        config = ProjectAnalytics.new.config
+        str = YamlBuilders::IosYamlBuilder.new(config).build_yaml
+        str.gsub!("fastlane gym build --export_method ad-hoc", 'echo "hello world"')
+
+        File.open(FLOW_YML_NAME, "wb") do |file|
+          file.write(str)
+        end
+
+        $stdout = StringIO.new('', 'w')
+        @cmd.show_build_script
+        expect($stdout.string.include?('echo "hello world"')).to eq true
+      end
     end
   end
 end

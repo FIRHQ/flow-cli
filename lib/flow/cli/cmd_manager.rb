@@ -26,7 +26,11 @@ module Flow::Cli
       File.open(FLOW_YML_NAME, "wb") do |file|
         file.write(str)
       end
+      @cmd_helper.echo str
       @cmd_helper.puts_warning "yaml created...\n#{str}"
+      @cmd_helper.puts_warning "*" * 20
+      @cmd_helper.puts_warning " run 'mv flow.yml .flow.yml && git add .flow.yml' if you know WHAT IS '.flow.yml' "
+      @cmd_helper.puts_warning "*" * 20
     end
 
     desc "run_build_script", "run flow yml build script"

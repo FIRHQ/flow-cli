@@ -16,11 +16,13 @@ module Flow::Cli
       desc "help_ios_init", 'how to fetch provisions, p12 files'
       def help_ios_init
         @cmd_helper.echo_warning %(when you build ios project, you should upload p12 and provision to flow ci project
-          followed this website to build p12 and provision files
-          http://docs.flow.ci/en/upload_certificate_and_provisioning_profiles.html    (EN)
-          http://docs.flow.ci/zh/upload_certificate_and_provisioning_profiles.html    (中文)
 
-          finally,
+          followed this website to build p12 and provision files
+
+          http://docs.flow.ci/en/upload_certificate_and_provisioning_profiles.html    (EN)
+          http://docs.flow.ci/zh/upload_certificate_and_provisioning_profiles.htm     (ZH)
+
+          when you exported p12s and provisons correctly,
           run `flow-cli remote upload_p12 FILE` and `flow-cli remote upload_provision FILE` to upload the files.
         )
       end

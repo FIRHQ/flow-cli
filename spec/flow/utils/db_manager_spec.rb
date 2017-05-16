@@ -21,6 +21,12 @@ module Flow::Cli
         expect(DbManager.read_attribute("my_test_key")).to eq 3
       end
 
+      it 'could overide_save hash' do
+        DbManager.save_attribute('my_test_key', 3)
+        DbManager.overide_save({})
+        expect(DbManager.read.keys.count).to eq 0
+      end
+
       it 'could set attribute to nil' do
         DbManager.save_attribute('my_test_key', nil)
         expect(DbManager.read_attribute("my_test_key")).to eq nil

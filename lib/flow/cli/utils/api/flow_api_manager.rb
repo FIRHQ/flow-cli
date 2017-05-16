@@ -116,7 +116,7 @@ module Flow::Cli
       class << self
         def login(email, password)
           dict = FlowApiRest.post("/login", login: email, password: password)
-          DbManager.save(email: email, password: password, user_access_token: dict[:access_token])
+          DbManager.save(email: email, user_access_token: dict[:access_token])
           { email: email, password: password, user_access_token: dict[:access_token] }
         end
 

@@ -3,6 +3,8 @@ module Flow::Cli
   module Utils
     RSpec.describe FlowApiManager do
       before(:each) do
+        pending("you should told me email and password") if ENV["password"].nil? || ENV["email"].nil?
+        FlowApiManager.login(ENV["email"], ENV["password"])
         @manager = FlowApiManager.load_from_db
       end
 

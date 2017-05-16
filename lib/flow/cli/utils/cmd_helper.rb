@@ -42,7 +42,9 @@ module Flow::Cli
       end
 
       alias error puts_error
+      alias echo_error puts_error
       alias warning puts_warning
+      alias echo_warning puts_warning
       alias warn puts_warning
 
       class << self

@@ -29,6 +29,12 @@ module Flow::Cli
       alias error puts_error
       alias warning puts_warning
       alias warn puts_warning
+
+      class << self
+        def instance
+          new
+        end
+      end
     end
   end
 end

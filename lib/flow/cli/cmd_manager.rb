@@ -8,7 +8,7 @@ module Flow::Cli
     def initialize(*args)
       super(*args)
       @db_manager = Utils::DbManager
-      @cmd_helper = Utils::CmdHelper.new
+      @cmd_helper = Utils::CmdHelper.instance
     end
 
     desc "remote ...ARGS", "manage flow ci"

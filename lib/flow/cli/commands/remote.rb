@@ -10,7 +10,7 @@ module Flow::Cli
         super(*args)
         @db_manager = Utils::DbManager
         @api_manager = Utils::FlowApiManager.load_from_db(&proc)
-        @cmd_helper = Utils::CmdHelper.new()
+        @cmd_helper = Utils::CmdHelper.instance
       end
 
       desc "login", "bind flow ci account to flow cli."
@@ -23,8 +23,8 @@ module Flow::Cli
 
       desc "reset", "reset flow api info data"
       def reset
-        @db_manager.overide_save({})
-        puts "reset success..."
+        @db_manager.reset
+        @cmd_helper.puts_warning "reset ok..."
       end
 
       desc "project_init", "set a project from flow ci to operation"

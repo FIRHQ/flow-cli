@@ -13,6 +13,10 @@ module Flow::Cli
           hash
         end
 
+        def reset
+          overide_save({})
+        end
+        
         def save(settings)
           old = read
           settings = old.merge(settings).compact.stringify_keys

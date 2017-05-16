@@ -107,7 +107,7 @@ module Flow::Cli
         if dict.count.zero?
           @cmd_helper.echo_warning("no p12 found in project #{current_project_id}")
         else
-          @cmd_helper.echo dict
+          @cmd_helper.puts_table(dict)
         end
       end
 
@@ -121,7 +121,7 @@ module Flow::Cli
           tmp[:url] = "https://dashboard.flow.ci/projects/#{current_project_id}/jobs/#{tmp[:id]}"
           tmp
         end
-        @cmd_helper.echo_table(show_data, %i[number event_type branch status commit_log created_at_str url])
+        @cmd_helper.puts_table(show_data, %i[number event_type branch status commit_log created_at_str url])
       end
 
       desc "upload_provision FILE_PATH", "upload_provision"
@@ -149,7 +149,7 @@ module Flow::Cli
         if dict.count.zero?
           @cmd_helper.echo_warning("no p12 found in project #{current_project_id}")
         else
-          @cmd_helper.echo dict
+          @cmd_helper.puts_table(dict)
         end
       end
 

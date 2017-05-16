@@ -19,7 +19,7 @@ module Flow::Cli
       end
 
       def puts_table(arr_dict, sorted_titles = nil)
-        sorted_titles = arr_dictt.first.keys if sorted_titles.nil?
+        sorted_titles = arr_dict.first.keys if sorted_titles.nil?
         table = TTY::Table.new header: sorted_titles
         arr_dict.each do |item| 
           show_item = []

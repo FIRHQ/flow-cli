@@ -27,7 +27,57 @@ flow-cli remote --help# flow ci operation help.
 
 ## Example
 
-### flow-cli login
+### Build flow yaml 
+
+```
+➜  flowclibasic git:(master) ✗ flow-cli build_yaml_file
+
+export_method?  development
+less log? Yes
+[17:54:50]: $ xcodebuild -list -project ./flowclibasic.xcodeproj
+[17:54:52]: $ xcodebuild -showBuildSettings -scheme flowclibasic -project ./flowclibasic.xcodeproj
+---
+env:
+- FLOW_YAML_FROM=flow-cli
+flows:
+- name: default_flow_by_cli
+  language: objc
+  version: Xcode8
+  env:
+  trigger:
+    push:
+    - develop
+    - master
+  steps:
+  - name: init
+    plugin:
+      name: objc_init
+  - name: git
+    plugin:
+      name: git
+  - name: install
+    plugin:
+      name: objc_init
+  - name: build
+    scripts:
+    - fastlane gym build --project ./flowclibasic.xcodeproj --scheme flowclibasic
+      --output_name flowclibasic --clean false --export_method development --silent
+
+```
+
+### show build script
+
+```
+➜  flowclibasic git:(master) ✗ flow-cli show_build_script
+This is the build script in yaml
+
+******************************
+fastlane gym build --project ./flowclibasic.xcodeproj --scheme flowclibasic --output_name flowclibasic --clean false --export_method development --silent
+******************************
+```
+
+
+### Flow-cli login
 
 ```
 ➜  flow-cli git:(master) ✗ flow-cli remote login
@@ -45,7 +95,7 @@ Choose your project? FIRHQ/flow-cli
 project_id = 591a8ff86c112a739a1abefe, flow_id = 591a9003ef2cb037c03c0c94. saved this info...
 ```
 
-### fetch latest jobs
+### Fetch latest jobs
 
 ```
   flow-cli git:(master) ✗ flow-cli remote fetch_latest_jobs

@@ -7,18 +7,21 @@ echo 'using gem mirror ruby-china.org'
 echo "Install RVM"
 echo "---------------------------------------------------------------------------"
 
-echo "Please enter any key to continue"
+echo "Please enter any key to continue... ctrl-c to QUIT"
 read input
 
-command gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
-command curl -L https://get.rvm.io | bash -s stable
-if [ whoami = 'root']; then
-  command source /etc/profile.d/rvm.sh
+which rvm &>/dev/null
+if [ $? -ne 0 ]; then
+  command gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+  command curl -L https://get.rvm.io | bash -s stable
+  if [ whoami = 'root']; then
+    command source /etc/profile.d/rvm.sh
+  else
+    command source ~/.rvm/scripts/rvm
+  fi
 else
-  command source ~/.rvm/scripts/rvm
+  echo "rvm has installed"
 fi
-
-echo "ruby_url=https://cache.ruby-china.org/pub/ruby" > ~/.rvm/user/db
 
 rvm requirements
 rvm install 2.3.1 --disable-binary

@@ -6,38 +6,53 @@ flow ci command tool, including build yaml, run build script locally, run a manu
 
 ## Installation
 
-## One step Installation
+### One step Installation
 
 curl -L https://raw.githubusercontent.com/FIRHQ/flow-cli/master/simple-install.sh | bash -s
 
 it would：
+- install rvm (which manage ruby version)
+- install ruby latest version
+- using mirror ruby-china.org for GFW (env MIRROR_CHINA_INSTALL to toggle this function in shell script)
+- install gem flow-cli
 
-install rvm (which manage ruby version)
-install ruby latest version
-using mirror ruby-china.org for GFW (env MIRROR_CHINA_INSTALL to toggle this function in shell script)
-install gem flow-cli
-
-### Installation manually
+### Manual Installation 
 
     I guess you had install rvm ?  
-    highly recommand to use 'rvm' to install latest ruby,
+
+    highly recommand to use 'rvm' to install latest ruby (https://rvm.io/)
     (If u want to uninstall everything about flow-cli, U can `rm -rf ~/.rvm` , to uninstall all about ruby, rvm and gems.)
 
-    when u installed latest ruby using rvm, run this command `gem install flow-cli` to install flow-cli 
+
+    When u installed latest ruby using rvm, run this command `gem install flow-cli` to install flow-cli 
+
+
+    Set mirror to avoid GFW block (IF YOU ARE IN CHINA):
+    - When rvm installed, run `echo "ruby_url=https://cache.ruby-china.org/pub/ruby" > ~/.rvm/user/db`   before install ruby, 
+    - When ruby installed, run `gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/` 
+
 
     $ gem install flow-cli
 
 
-    **Summary**
-    1. install rvm
+    ** Summary **
+    1. install rvm 
     2. install latest ruby on rvm
     3. run command `gem install flow-cli`
 
+### Install from Source
+
+after installed rvm and ruby 
+
+- `git clone https://github.com/FIRHQ/flow-cli`
+- `rake install`
 
 ## Usage
 
+```
 flow-cli --help # help 
 flow-cli remote --help# flow ci operation help.
+```
 
 ## Example
 
@@ -132,7 +147,7 @@ project_id = 591a8ff86c112a739a1abefe, flow_id = 591a9003ef2cb037c03c0c94. saved
 ```
 flow-cli git:(master) ✗ flow-cli remote run_manual_job --branch develop
 job started. click ( cmd + click ) url to visit on browser
-https://dashboard.flow.ci/projects/xxxxxxxxxx/jobs/591acbb2fbd0860841d81dd4
+https://dashboard.flow.ci/projects/xxxxxxxxxx/jobs/xxxxxxx
 ```
 
 ## Development

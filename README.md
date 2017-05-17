@@ -1,24 +1,38 @@
 # Flow::Cli
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/flow/cli`. To experiment with that code, run `bin/console` for an interactive prompt.
+## Description
 
-## simple Installation
+flow ci command tool, including build yaml, run build script locally, run a manual job, show latest jobs, and so on. 
+
+## Installation
+
+## One step Installation
 
 curl -L https://raw.githubusercontent.com/FIRHQ/flow-cli/master/simple-install.sh | bash -s
 
 it would：
 
 install rvm (which manage ruby version)
-install ruby 2.3.1
-using gem mirror ruby-china.org
+install ruby latest version
+using mirror ruby-china.org for GFW (env MIRROR_CHINA_INSTALL to toggle this function in shell script)
 install gem flow-cli
 
-
-## Installation
+### Installation manually
 
     I guess you had install rvm ?  
+    highly recommand to use 'rvm' to install latest ruby,
+    (If u want to uninstall everything about flow-cli, U can `rm -rf ~/.rvm` , to uninstall all about ruby, rvm and gems.)
+
+    when u installed latest ruby using rvm, run this command `gem install flow-cli` to install flow-cli 
 
     $ gem install flow-cli
+
+
+    **Summary**
+    1. install rvm
+    2. install latest ruby on rvm
+    3. run command `gem install flow-cli`
+
 
 ## Usage
 

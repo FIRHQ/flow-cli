@@ -195,7 +195,7 @@ if [ $? -ne 0 -a $RVM_FRESH_INSTALL -eq 1 ]; then
 fi
 
 puts "Installing flow-cli gem"
-gem install flow-cli
+gem install flow-cli --no-rdoc --no-ri
 if [ $? -ne 0 -a $RVM_FRESH_INSTALL -eq 1 ]; then
   rvm_post_install_message
   exit 4

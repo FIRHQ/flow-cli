@@ -41,10 +41,14 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "simplecov"
   spec.add_development_dependency "rubocop"
-  spec.add_development_dependency "byebug"
+
+  spec.add_dependency "byebug"
+  spec.add_dependency "pastel"
+  spec.add_dependency "tty-table"
+  spec.add_dependency "tty-prompt"
+  spec.add_dependency "tty-command"
 
   spec.add_dependency "thor", "~> 0.18"
-  spec.add_dependency "tty", "~> 0.7"
   spec.add_dependency "fastlane", "~> 2.28"
   spec.add_dependency "oj", "~> 2"
   spec.add_dependency "rest-client"

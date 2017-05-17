@@ -1,6 +1,9 @@
 require 'yaml'
 require 'byebug'
-require 'tty'
+require "pastel"
+require "tty-table"
+require "tty-prompt"
+require "tty-command"
 require 'thor'
 
 module Flow::Cli

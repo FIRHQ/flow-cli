@@ -1,5 +1,8 @@
 require 'yaml'
-require 'tty'
+require "pastel"
+require "tty-table"
+require "tty-prompt"
+require "tty-command"
 require 'thor'
 require_relative './commands/remote'
 

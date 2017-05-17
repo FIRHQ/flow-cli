@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
-# File:         ruby-bootstrap.sh
-# Description:  This script bootstraps rvm, Ruby, flow-cli
+# Copy from:        ruby-bootstrap.sh
+# Description:  This script bootstraps rvm, Ruby
 
 RVM_FRESH_INSTALL=0 # 0=false, 1=true
 MIRROR_CHINA_INSTALL=1 # 0=false, 1=true

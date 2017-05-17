@@ -18,27 +18,25 @@ it would：
 
 ### Manual Installation 
 
-    I guess you had install rvm ?  
+I guess you had install rvm ?  
 
-    highly recommand to use 'rvm' to install latest ruby (https://rvm.io/)
-    (If u want to uninstall everything about flow-cli, U can `rm -rf ~/.rvm` , to uninstall all about ruby, rvm and gems.)
+highly recommand to use 'rvm' to install latest ruby (https://rvm.io/)
+(If u want to uninstall everything about flow-cli, U can `rm -rf ~/.rvm` , to uninstall all about ruby, rvm and gems.)
 
+When u installed latest ruby using rvm, run this command `gem install flow-cli` to install flow-cli 
 
-    When u installed latest ruby using rvm, run this command `gem install flow-cli` to install flow-cli 
-
-
-    Set mirror to avoid GFW block (IF YOU ARE IN CHINA):
-    - When rvm installed, run `echo "ruby_url=https://cache.ruby-china.org/pub/ruby" > ~/.rvm/user/db`   before install ruby, 
-    - When ruby installed, run `gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/` 
+Set mirror to avoid GFW block (IF YOU ARE IN CHINA):
+- When rvm installed, run `echo "ruby_url=https://cache.ruby-china.org/pub/ruby" > ~/.rvm/user/db`   before install ruby, 
+- When ruby installed, run `gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/` 
 
 
-    $ gem install flow-cli
+$ gem install flow-cli
 
 
-    ** Summary **
-    1. install rvm 
-    2. install latest ruby on rvm
-    3. run command `gem install flow-cli`
+** Summary **
+1. install rvm 
+2. install latest ruby on rvm
+3. run command `gem install flow-cli`
 
 ### Install from Source
 
@@ -128,9 +126,9 @@ project_id = 591a8ff86c112a739a1abefe, flow_id = 591a9003ef2cb037c03c0c94. saved
 
 ```
   flow-cli git:(master) ✗ flow-cli remote fetch_latest_jobs
-┌──────┬──────────┬──────┬───────┬──────────────┬─────────────────────────┬─────────────────────────────────────────────────────────────────────────────────────────┐
-│number│event_type│branch│status │commit_log    │created_at_str           │url                                                                                      │
-├──────┼──────────┼──────┼───────┼──────────────┼─────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────┤
+┌──────┬──────────┬──────┬───────┬──────────────┬─────────────────────────┬──────────────────────────────────────────────────────────────────────────┐
+│number│event_type│branch│status │commit_log    │created_at_str           │url                                                                       │
+├──────┼──────────┼──────┼───────┼──────────────┼─────────────────────────┼──────────────────────────────────────────────────────────────────────────┤
 │8     │push      │master│success│update version│2017-05-16 17:38:36 +0800│https://dashboard.flow.ci/projects/xxxxxxxxx/jobs/591ac89c6c112a4dfa1abf3f│
 │7     │push      │master│success│fix           │2017-05-16 17:37:36 +0800│https://dashboard.flow.ci/projects/xxxxxxxxx/jobs/591ac860ef2cb07df83c0df8│
 │6     │push      │master│success│add readme    │2017-05-16 17:21:10 +0800│https://dashboard.flow.ci/projects/xxxxxxxxx/jobs/591ac4866c112a3f6c1abfd8│
@@ -139,7 +137,7 @@ project_id = 591a8ff86c112a739a1abefe, flow_id = 591a9003ef2cb037c03c0c94. saved
 │3     │push      │master│success│fix           │2017-05-16 17:02:31 +0800│https://dashboard.flow.ci/projects/xxxxxxxxx/jobs/591ac0276c112a3f6c1abf6e│
 │2     │push      │master│failure│refactoring   │2017-05-16 14:38:37 +0800│https://dashboard.flow.ci/projects/xxxxxxxxx/jobs/591a9e6d6c112a04a41abf3a│
 │1     │manual    │master│success│              │2017-05-16 13:37:52 +0800│https://dashboard.flow.ci/projects/xxxxxxxxx/jobs/591a90306c112a2b6f1abf5d│
-└──────┴──────────┴──────┴───────┴──────────────┴─────────────────────────┴─────────────────────────────────────────────────────────────────────────────────────────┘
+└──────┴──────────┴──────┴───────┴──────────────┴─────────────────────────┴──────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### run a manual job

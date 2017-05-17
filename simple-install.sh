@@ -140,7 +140,9 @@ function detect_desired_ruby_version() {
 # I assume the cause of the problem is rvm's variant of the 'cd' command (~/.rvm/scripts/cd), which may alter the
 # normal behavior of 'cd' in a way that breaks our usage of 'cd' in the function 'find_ruby_version_file' above.
 puts -n "Detecting desired Ruby version: "
+
 RUBY_VERSION=`detect_desired_ruby_version`
+
 if [ -z "$RUBY_VERSION" ]; then
   warn "FAILED (could not find .ruby-version) -- falling back to latest stable Ruby version"
   RUBY_VERSION="ruby" # 'ruby' defaults to latest stable version
@@ -166,6 +168,7 @@ fi
 if [ -d ~/.rvm/bin ]; then
   PATH=$PATH:~/.rvm/bin
 fi
+
 source ~/.rvm/scripts/rvm
 
 if [ $MIRROR_CHINA_INSTALL -eq 1 ]; then
@@ -175,7 +178,9 @@ fi
 ### Install Ruby
 ###
 puts "Installing Ruby version ${RUBY_VERSION}..."
+
 rvm install $RUBY_VERSION
+
 if [ $? -ne 0 -a $RVM_FRESH_INSTALL -eq 1 ]; then
   rvm_post_install_message
   exit 2

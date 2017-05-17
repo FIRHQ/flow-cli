@@ -8,7 +8,7 @@ flow ci command tool, including build yaml, run build script locally, run a manu
 
 ### One step Installation
 
-curl -L https://raw.githubusercontent.com/FIRHQ/flow-cli/master/simple-install.sh | bash -s
+`curl -L https://raw.githubusercontent.com/FIRHQ/flow-cli/master/simple-install.sh | bash -s`
 
 it would：
 - install rvm (which manage ruby version)

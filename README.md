@@ -2,7 +2,7 @@
 
 ## Description
 
-flow ci command tool, including build yaml, run build script locally, run a manual job, show latest jobs, and so on. 
+flow ci command tool, including build yaml, run build script locally, run manual jobs, show latest jobs, and so on. 
 
 ## Installation
 
@@ -18,7 +18,7 @@ it would：
 
 ### Manual Installation 
 
-I guess you had install rvm ?  
+`WARNING!  DO NOT sudo gem install flow-cli, that may invoke permission issue.`
 
 highly recommand to use 'rvm' to install latest ruby (https://rvm.io/)
 (If u want to uninstall everything about flow-cli, U can `rm -rf ~/.rvm` , to uninstall all about ruby, rvm and gems.)
@@ -28,7 +28,6 @@ When u installed latest ruby using rvm, run this command `gem install flow-cli` 
 Set mirror to avoid GFW block (IF YOU ARE IN CHINA):
 - When rvm installed, run `echo "ruby_url=https://cache.ruby-china.org/pub/ruby" > ~/.rvm/user/db`   before install ruby, 
 - When ruby installed, run `gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/` 
-
 
 $ gem install flow-cli
 
